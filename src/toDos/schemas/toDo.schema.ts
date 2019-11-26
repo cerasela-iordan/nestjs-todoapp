@@ -1,6 +1,11 @@
 import * as mongoose from 'mongoose';
 export const ToDoSchema = new mongoose.Schema({
-    checked: Boolean,
-    text: String,
+    checked: {
+        type: Boolean,
+        required: true,
+    },
+    text: {
+        type: String,
+        required: true,
+    },
 });
-

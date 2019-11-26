@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, HttpException, HttpCode } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CreateToDoDto } from './dtos/create-toDo.dto';
@@ -6,12 +6,16 @@ import { UpdateToDoDto } from './dtos/update-toDo.dto';
 import { ToDo } from './interfaces/toDo.interface';
 @Injectable()
 export class ToDoService {
-  constructor(@InjectModel('ToDo') private readonly toDoModel: Model<ToDo>) { }
+  constructor(@InjectModel('ToDo') private readonly toDoModel: Model<ToDo>) {}
 
   async create(createToDo: CreateToDoDto): Promise<string> {
     const createdToDo = new this.toDoModel(createToDo);
-    const result = await createdToDo.save();
-    return result.id;
+    try {
+      const result = await createdToDo.save();
+      return result.id;
+    } catch (exception) {
+      throw new HttpException(exception.message, 400);
+    }
   }
 
   async findAll() {
@@ -41,4 +45,3 @@ export class ToDoService {
     return await this.toDoModel.deleteOne(retrievedToDo);
   }
 }
-

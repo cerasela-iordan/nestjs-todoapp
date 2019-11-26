@@ -1,20 +1,12 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Post,
-  Put,
-} from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { CreateToDoDto } from './dtos/create-toDo.dto';
 import { UpdateToDoDto } from './dtos/update-toDo.dto';
-import { ToDoService } from './toDo.service';
 import { ToDo } from './interfaces/toDo.interface';
+import { ToDoService } from './toDo.service';
 
 @Controller('toDo')
 export class ToDoController {
-  constructor(private readonly toDoService: ToDoService) {}
+  constructor(private readonly toDoService: ToDoService) { }
 
   @Post()
   create(@Body() createToDo: CreateToDoDto) {
